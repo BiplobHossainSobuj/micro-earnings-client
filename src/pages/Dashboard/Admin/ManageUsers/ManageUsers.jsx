@@ -1,11 +1,11 @@
 import React from 'react';
 
-const WorkerRoute = () => {
+const ManageUsers = () => {
     return (
         <div>
-            
+            manage user
         </div>
     );
 };
 
-export default WorkerRoute;
+export default ManageUsers;

@@ -13,7 +13,7 @@ const AuthProvider = ({children}) => {
     useEffect(()=>{
         const unSubscribe = onAuthStateChanged(auth,(user)=>{
             setUser(user);
-            const userInfo = {email:user.email}
+            const userInfo = {email:user.email};
             if(user){
                 axiosPublic.post('/jwt',userInfo)
                 .then(res=>{
@@ -34,6 +34,7 @@ const AuthProvider = ({children}) => {
     },[])
 
     const loginWithGoogle =()=>{
+        setLoading(true);
         return signInWithPopup(auth,googleProvider);
     }
     const createUser =(email,password)=>{
@@ -51,9 +52,9 @@ const AuthProvider = ({children}) => {
         return signOut(auth);
     }
 
-    const updateUserProfile = (name)=>{
+    const updateUserProfile = (name,photoUrl)=>{
         return updateProfile(auth.currentUser, {
-            displayName: name,
+            displayName: name,photoURL:photoUrl
           })
     }
 

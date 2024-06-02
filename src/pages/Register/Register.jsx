@@ -1,10 +1,51 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
 
+import { useForm } from 'react-hook-form';
+import useAxiosPublic from '../../hooks/useAxiosPublic';
+import Swal from 'sweetalert2';
+import useAuth from '../../hooks/useAuth';
+import { useLocation, useNavigate } from 'react-router-dom';
+const imgHostingKey = import.meta.env.VITE_image_hosting_key;
+const imgHostingApi = `https://api.imgbb.com/1/upload?key=${imgHostingKey}`;
 const Register = () => {
-    const { register, handleSubmit } = useForm()
-    const onSubmit = (data) => {
-        console.log(data);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/'
+    const { register, handleSubmit } = useForm();
+    const { createUser, updateUserProfile } = useAuth();
+    const axiosPublic = useAxiosPublic();
+    const onSubmit = async (data) => {
+        console.log(data)
+        const imgFile = { image: data.photo[0] };
+        const res = await axiosPublic.post(imgHostingApi, imgFile, {
+            headers: { 'content-type': 'multipart/form-data' }
+        })
+        const image = res.data.data.display_url;
+        if (res.data.success) {
+            const user = {
+                name: data.name,
+                email: data.email,
+                role: data.role,
+                photoUrl: image,
+            };
+            console.log(user, 'user');
+            createUser(data.email, data.password)
+                .then(async () => {
+                    updateUserProfile(user.name, user.photoUrl);
+                    const userRes = await axiosPublic.post('/users', user);
+                    if (userRes.data.insertedId) {
+                        navigate(from,{replace:true})
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Your registration succesfull",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+
+                })
+        }
+
     }
     return (
         <div>

@@ -1,11 +1,32 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import useAuth from '../../../hooks/useAuth';
+import Swal from 'sweetalert2';
 
 const Header = () => {
+    const {user,logout} = useAuth();
+    const handleLogout = () => {
+        logout()
+            .then(() => {
+                console.log('logout');
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Log out succesfull",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
+    }
     const navOptions = <>
         <li><Link to="/">Home</Link></li>
-        <li><Link to="/login">Login</Link></li>
         <li><Link to="/register">Register</Link></li>
+        {
+            user ? <>
+                <button onClick={handleLogout}>Log out</button></> :
+                <><li><Link to="/login">Login</Link></li></>
+        }
+        
     </>
     return (
         <div className="navbar bg-base-100">
