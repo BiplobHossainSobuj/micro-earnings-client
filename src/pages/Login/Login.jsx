@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import SocialLogin from "../Shared/SocialLogin/SocialLogin";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import useAdmin from "../../hooks/useAdmin";
+import useTaskCreator from "../../hooks/useTaskCreator";
 
 const Login = () => {
     const { register, handleSubmit } = useForm();
@@ -12,6 +13,8 @@ const Login = () => {
     const axiosPublic= useAxiosPublic();
     const navigate = useNavigate();
     const location = useLocation();
+    const [isAdmin] = useAdmin();
+    const [isTaskCreator] = useTaskCreator();
     const from = location.state?.from?.pathname || '/'
     const onSubmit = async (data) => {
         console.log(data,'from login');
@@ -27,8 +30,8 @@ const Login = () => {
               const user = {email:result.user.email}
               axiosPublic.post('/jwt', user)
                     .then(res => {
-                        console.log(res.data)
-                        navigate('/dashboard/userHome');
+                        console.log(res.data);
+                        navigate('/dashboard');
                     })
             // navigate(from,{replace:true})
             // navigate('/dashboard/userHome');

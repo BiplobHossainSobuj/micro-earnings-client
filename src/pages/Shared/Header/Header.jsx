@@ -1,10 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 import Swal from 'sweetalert2';
+import useAdmin from '../../../hooks/useAdmin';
+import useTaskCreator from '../../../hooks/useTaskCreator';
 
 const Header = () => {
     const {user,logout} = useAuth();
+    const [isAdmin] = useAdmin();
+    const [isTaskCreator] = useTaskCreator();
     const handleLogout = () => {
         logout()
             .then(() => {
@@ -21,6 +25,12 @@ const Header = () => {
     const navOptions = <>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/register">Register</Link></li>
+        {
+            user && isAdmin &&  <li><Link to="/dashboard/adminHome">Dashboard</Link></li>
+        }
+        {
+            user && isTaskCreator && <li><Link to="/dashboard/taskCreatorHome">Dashboard</Link></li>
+        }
         {
             user ? <>
                 <button onClick={handleLogout}>Log out</button></> :

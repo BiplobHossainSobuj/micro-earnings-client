@@ -6,7 +6,7 @@ import useAuth from './useAuth';
 const useTaskCreator = () => {
     const axiosSecure = useAxiosSecure();
     const {user,loading} = useAuth();
-    console.log(user);
+    // console.log(user);
     const {data:isTaskCreator,isPending:isTaskCreatorLoading} = useQuery({
         queryKey:[user?.email,'isTaskCreator'],
         enabled:!loading,
@@ -15,7 +15,7 @@ const useTaskCreator = () => {
             //     headers:{authorization: `Bearer ${localStorage.getItem('access-token')}`}
             // }
             const res = await axiosSecure.get(`/users/taskCreator/${user.email}`);
-            console.log(res.data);
+            // console.log(res.data);
             return res.data?.taskCreator;
         }
     })

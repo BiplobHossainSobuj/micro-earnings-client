@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 const useWorker = () => {
     const axiosSecure = useAxiosSecure();
     const {user,loading} = useAuth();
-    console.log(user);
+    // console.log(user);
     const {data:isWorker,isPending:isWorkerLoading} = useQuery({
         queryKey:[user?.email,'isWorker'],
         enabled:!loading,
@@ -15,7 +15,7 @@ const useWorker = () => {
             const res = await axiosSecure.get(`/users/worker/${user.email}`,
             
             );
-            console.log(res.data);
+            // console.log(res.data);
             return res.data?.worker;
         }
     })

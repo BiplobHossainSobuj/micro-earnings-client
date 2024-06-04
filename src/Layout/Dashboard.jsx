@@ -8,19 +8,19 @@ const Dashboard = () => {
     const [isAdmin] = useAdmin();
     const [isTaskCreator] = useTaskCreator();
     const { user } = useAuth();
-    console.log(user, 'from auth');
+    // console.log(user, 'from auth');
     const navOptions = <>
         
         {
             user && !isAdmin && !isTaskCreator &&<>
-                <li><NavLink to={'userHome'}>Dashboard</NavLink></li>
+                <li><NavLink to={'userHome'}>Home</NavLink></li>
                 <li><NavLink to={'taskList'}>Task List</NavLink></li>
                 <li><NavLink to={'mySubmissions'}>My Submission</NavLink></li>
             </>
         }
         {
             isAdmin && <>
-                <li><NavLink to={'adminHome'}>Dashboard</NavLink></li>
+                <li><NavLink to={'adminHome'}>Home</NavLink></li>
                 <li><NavLink to={'manageUsers'}>manageUsers</NavLink></li>
                 <li><NavLink to={'manageTasks'}>Manage Tasks</NavLink></li>
             </>
