@@ -33,7 +33,7 @@ const Register = () => {
                     updateUserProfile(user.name, user.photoUrl);
                     const userRes = await axiosPublic.post('/users', user);
                     if (userRes.data.insertedId) {
-                        navigate(from,{replace:true})
+                        navigate('/dashboard')
                         Swal.fire({
                             position: "top-end",
                             icon: "success",
