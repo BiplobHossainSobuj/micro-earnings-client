@@ -46,7 +46,8 @@ const MyTask = () => {
         e.preventDefault();
         const taskDetails = e.target.taskDetails.value;
         const taskTitle = e.target.taskTitle.value;
-        const updatedInfo = { id, taskDetails, taskTitle }
+        const submissionDetails = e.target.submissionDetails.value;
+        const updatedInfo = { id, taskDetails, taskTitle,submissionDetails }
         console.log(updatedInfo);
         const res = await axiosSecure.patch(`tasks/${id}`,updatedInfo);
         console.log(res.data);
@@ -89,6 +90,10 @@ const MyTask = () => {
                                                 <label className="form-control w-full max-w-xs">
                                                     <span className="label-text">Task Details</span>
                                                     <textarea name="taskDetails" className="textarea textarea-bordered h-24" placeholder="Task Details"></textarea>
+                                                </label>
+                                                <label className="form-control w-full max-w-xs">
+                                                    <span className="label-text">Task Details</span>
+                                                    <textarea name="submissionDetails" className="textarea textarea-bordered h-24" placeholder="Submission Details"></textarea>
                                                 </label>
                                                 <div className="modal-action">
                                                     <input className="btn" type="submit" value={'Update'} />

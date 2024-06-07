@@ -22,7 +22,7 @@ import AddNewTask from "../pages/Dashboard/TaskCreator/AddNewTask/AddNewTask";
 import PurchaseCoin from "../pages/Dashboard/TaskCreator/PurchaseCoin/PurchaseCoin";
 import PurchaseHistory from "../pages/Dashboard/TaskCreator/PurchaseHistory/PurchaseHistory";
 import WorkerRoute from "./WorkerRoute";
-  
+import TaskDetails from "../pages/Dashboard/Worker/TaskList/TaskDetails";
 
 
   export const router = createBrowserRouter([
@@ -57,6 +57,10 @@ import WorkerRoute from "./WorkerRoute";
             {
                 path:'taskList',
                 element:<WorkerRoute><Tasklist></Tasklist></WorkerRoute>
+            },
+            {
+                path:'taskList/:id',
+                element:<WorkerRoute><TaskDetails></TaskDetails></WorkerRoute>
             },
             {
                 path:'mySubmissions',
