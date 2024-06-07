@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form';
 
 
 const ManageUsers = () => {
-    const { register, handleSubmit } = useForm();
     const axiosSecure = useAxiosSecure();
     const [userRole,setUserRole] = useState('');
     const { data: users = [], refetch } = useQuery({
@@ -42,11 +41,7 @@ const ManageUsers = () => {
             }
         });
     }
-    const handleRole = (e) => {
-        const role = e.target.value;
-        setUserRole(role);
-        console.log(role)
-    }
+    
     const handleChange = async (data) => {
         setUserRole(data.target.value);
     }
