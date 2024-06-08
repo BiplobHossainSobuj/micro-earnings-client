@@ -20,6 +20,22 @@ const TaskToReview = () => {
         const res =await axiosSecure.get(`/submissions/details/${id}`);
         setSubmissionDetails(res.data[0].submitDetails);
     }
+    const handleApprove =async(task)=>{
+        const id = task._id;
+        const workerEmail = task.workerEmail;
+        console.log(id,workerEmail);
+        const res =await axiosSecure.patch(`/submissions/approve/${id}`);
+        console.log(res.data);
+        refetch();
+    }
+    const handleReject =async(task)=>{
+        const id = task._id;
+        const workerEmail = task.workerEmail;
+        console.log(id,workerEmail);
+        const res =await axiosSecure.patch(`/submissions/reject/${id}`);
+        console.log(res.data);
+        refetch();
+    }
     return (
         <div className="overflow-x-auto">
             <table className="table">
@@ -73,10 +89,10 @@ const TaskToReview = () => {
                                 </td>
                                 <td>{task.status}</td>
                                 <td>
-                                    <button className="btn btn-md bg-red-500">
+                                    <button onClick={()=>handleApprove(task)} className="btn btn-md bg-red-500">
                                         Approve
                                     </button>
-                                    <button className="btn btn-md bg-red-500">
+                                    <button onClick={()=>handleReject(task)} className="btn btn-md bg-red-500">
                                         Reject
                                     </button>
                                 </td>
