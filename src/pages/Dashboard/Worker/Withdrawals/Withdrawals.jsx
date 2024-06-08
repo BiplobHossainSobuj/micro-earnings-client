@@ -16,6 +16,7 @@ const Withdrawals = () => {
             withdrawCoin:data.coins,
             withdrawAmount:parseFloat(amount),
             paymentSystem:data.paymentMethod,
+            paymentNumber:data.acNumber,
             withdrawTime: new Date(),
         }
         console.log(withdrawInfo);
