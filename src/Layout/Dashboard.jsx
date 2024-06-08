@@ -16,6 +16,7 @@ const Dashboard = () => {
                 <li><NavLink to={'userHome'}>Home</NavLink></li>
                 <li><NavLink to={'taskList'}>Task List</NavLink></li>
                 <li><NavLink to={'mySubmissions'}>My Submission</NavLink></li>
+                <li><NavLink to={'withdrawals'}>Withdrawals</NavLink></li>
             </>
         }
         {

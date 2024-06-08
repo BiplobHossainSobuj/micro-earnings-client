@@ -23,6 +23,8 @@ import PurchaseCoin from "../pages/Dashboard/TaskCreator/PurchaseCoin/PurchaseCo
 import PurchaseHistory from "../pages/Dashboard/TaskCreator/PurchaseHistory/PurchaseHistory";
 import WorkerRoute from "./WorkerRoute";
 import TaskDetails from "../pages/Dashboard/Worker/TaskList/TaskDetails";
+import Payment from "../pages/Dashboard/TaskCreator/Payment/Payment";
+import Withdrawals from "../pages/Dashboard/Worker/Withdrawals/Withdrawals";
 
 
   export const router = createBrowserRouter([
@@ -59,6 +61,10 @@ import TaskDetails from "../pages/Dashboard/Worker/TaskList/TaskDetails";
                 element:<WorkerRoute><Tasklist></Tasklist></WorkerRoute>
             },
             {
+                path:'withdrawals',
+                element:<WorkerRoute><Withdrawals></Withdrawals></WorkerRoute>
+            },
+            {
                 path:'taskList/:id',
                 element:<WorkerRoute><TaskDetails></TaskDetails></WorkerRoute>
             },
@@ -93,6 +99,10 @@ import TaskDetails from "../pages/Dashboard/Worker/TaskList/TaskDetails";
             {
                 path:'purchaseCoin',
                 element:<TaskCreatorRoute><PurchaseCoin></PurchaseCoin></TaskCreatorRoute>
+            },
+            {
+                path:'payment',
+                element:<TaskCreatorRoute><Payment></Payment></TaskCreatorRoute>
             },
             {
                 path:'purchaseHistory',
