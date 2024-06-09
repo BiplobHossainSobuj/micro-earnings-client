@@ -4,13 +4,18 @@ import useAuth from "../../../../hooks/useAuth";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const MyTask = () => {
+    const [availableCoin, setAvailableCoin] = useState('');
     const { register, handleSubmit } = useForm();
-    const [taskID,setTaskID] = useState('');
+    const [taskID, setTaskID] = useState('');
     const axiosSecure = useAxiosSecure();
-    const { user } = useAuth()
+    const { user } = useAuth();
+    useEffect(() => {
+        axiosSecure.get(`/users/${user.email}`)
+            .then(res => setAvailableCoin(res.data.coin))
+    }, [])
     const { data: tasks = [], refetch } = useQuery({
         queryKey: ['tasks'],
         queryFn: async () => {
@@ -18,7 +23,11 @@ const MyTask = () => {
             return res.data;
         }
     })
+
     const handleDeleteTask = (task) => {
+        const coinNeeded = parseFloat(task.taskQuantity) * parseFloat(task.payableAmount)
+        const newCoins = parseFloat(availableCoin) + coinNeeded;
+
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -29,9 +38,15 @@ const MyTask = () => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
+                axiosSecure.patch(`/users/coins/${user.email}`, { newCoins })
+                    .then(res => {
+                        console.log(res.data);
+
+                    })
                 axiosSecure.delete(`/tasks/${task._id}`)
                     .then(res => {
                         if (res.data.deletedCount) {
+                            axiosSecure.patch('/users')
                             refetch();
                             Swal.fire({
                                 title: "Deleted!",
@@ -43,24 +58,24 @@ const MyTask = () => {
             }
         });
     }
-    const handleClick = (id)=>{
+    const handleClick = (id) => {
         document.getElementById('my_modal_1').showModal();
         setTaskID(id);
     }
-    const handleUpdate = async (id,e) => {
+    const handleUpdate = async (id, e) => {
         console.log(id);
         e.preventDefault();
         const taskDetails = e.target.taskDetails.value;
         const taskTitle = e.target.taskTitle.value;
         const submissionDetails = e.target.submissionDetails.value;
-        const updatedInfo = { id, taskDetails, taskTitle,submissionDetails }
+        const updatedInfo = { id, taskDetails, taskTitle, submissionDetails }
         console.log(updatedInfo);
-        const res = await axiosSecure.patch(`tasks/${id}`,updatedInfo);
+        const res = await axiosSecure.patch(`tasks/${id}`, updatedInfo);
         console.log(res.data);
     }
     return (
         <div>
-            
+
             <div className="overflow-x-auto">
                 <table className="table">
                     {/* head */}
@@ -88,7 +103,7 @@ const MyTask = () => {
                                                 {/* if there is a button in form, it will close the modal */}
                                                 <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                                             </form>
-                                            <form onSubmit={()=>handleUpdate(taskID,event)}>
+                                            <form onSubmit={() => handleUpdate(taskID, event)}>
                                                 <label className="form-control w-full max-w-xs">
                                                     <span className="label-text">Task Title</span>
                                                     <input name="taskTitle" type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />

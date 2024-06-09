@@ -4,7 +4,6 @@ import Swal from 'sweetalert2';
 import useAxiosPublic from '../../../../hooks/useAxiosPublic';
 import useAuth from '../../../../hooks/useAuth';
 import useAxiosSecure from '../../../../hooks/useAxiosSecure';
-import axios from 'axios';
 const imgHostingKey = import.meta.env.VITE_image_hosting_key;
 const imgHostingApi = `https://api.imgbb.com/1/upload?key=${imgHostingKey}`;
 
@@ -46,7 +45,13 @@ const AddNewTask = () => {
                 };
                 const res = await axiosSecure.post('/tasks', taskInfo)
                 if (res.data.insertedId) {
-                    Swal.fire("Task is added!");
+                    const newCoins = availableCoin - coinNeeded;
+                    axiosSecure.patch(`/users/coins/${user.email}`,{newCoins})
+                    .then(res=>{
+                        console.log(res.data);
+                        Swal.fire("Task is added!");
+                    })
+                    // setAvailableCoin();
                 }
 
             }

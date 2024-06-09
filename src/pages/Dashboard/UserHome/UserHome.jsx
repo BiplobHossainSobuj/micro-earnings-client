@@ -23,7 +23,6 @@ const UserHome = () => {
     })
     return (
         <div>
-            <h3>{users.length}</h3>
             {
                 isAdmin && <AdminHome></AdminHome>
             }
