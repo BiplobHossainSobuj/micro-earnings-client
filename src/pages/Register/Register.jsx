@@ -20,12 +20,19 @@ const Register = () => {
             headers: { 'content-type': 'multipart/form-data' }
         })
         const image = res.data.data.display_url;
+        let coin = 0;
+        if (data.role==='worker') {
+            coin=10;
+        }else if(data.role==='taskCreator'){
+            coin=50;
+        }
         if (res.data.success) {
             const user = {
                 name: data.name,
                 email: data.email,
                 role: data.role,
                 photoUrl: image,
+                coin
             };
             console.log(user, 'user');
             createUser(data.email, data.password)

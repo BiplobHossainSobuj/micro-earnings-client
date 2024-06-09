@@ -5,7 +5,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import CheckoutForm from './CheckoutForm';
 const stripePromise = loadStripe(import.meta.env.VITE_stripe_key);
 const Payment = () => {
-    const {state} = useLocation();
+    const { state } = useLocation();
     console.log(state)
     return (
         <div>

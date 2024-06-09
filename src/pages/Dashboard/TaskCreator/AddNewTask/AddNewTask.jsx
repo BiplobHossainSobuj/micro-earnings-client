@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import useAxiosPublic from '../../../../hooks/useAxiosPublic';
@@ -9,34 +9,49 @@ const imgHostingKey = import.meta.env.VITE_image_hosting_key;
 const imgHostingApi = `https://api.imgbb.com/1/upload?key=${imgHostingKey}`;
 
 const AddNewTask = () => {
+    const [availableCoin, setAvailableCoin] = useState('');
     const { register, handleSubmit } = useForm();
-    const {user} = useAuth();
+    const { user } = useAuth();
     const axiosPublic = useAxiosPublic();
     const axiosSecure = useAxiosSecure();
+    useEffect(() => {
+        axiosSecure.get(`/users/${user.email}`)
+            .then(res => setAvailableCoin(res.data.coin))
+    }, [])
+    console.log(availableCoin, 'from add new task');
     const onSubmit = async (data) => {
         console.log(data)
-        const imgFile = { image: data.taskImage[0] };
-        const res = await axiosPublic.post(imgHostingApi, imgFile, {
-            headers: { 'content-type': 'multipart/form-data' }
-        })
-        const image = res.data.data.display_url;
-        if (res.data.success) {
-            const taskInfo = {
-                creatorName:user.displayName,
-                creatorEmail:user.email,
-                date:new Date(),
-                taskTitle: data.taskTitle,
-                taskDetails: data.taskDetails,
-                taskQuantity: data.taskQuantity,
-                payableAmount:data.payableAmount,
-                completionDate:data.completionDate,
-                submissionInfo:data.submissionInfo,
-                taskImageUrl: image,
-            };
-            const res = await axiosSecure.post('/tasks',taskInfo)
-            console.log(res.data);
-            
+        const coinNeeded = parseFloat(data.payableAmount) * parseFloat(data.taskQuantity);
+        if (availableCoin < coinNeeded) {
+            Swal.fire("Rejected You don't have enogh coin!!");
         }
+        else {
+            const imgFile = { image: data.taskImage[0] };
+            const res = await axiosPublic.post(imgHostingApi, imgFile, {
+                headers: { 'content-type': 'multipart/form-data' }
+            })
+            const image = res.data.data.display_url;
+            if (res.data.success) {
+                const taskInfo = {
+                    creatorName: user.displayName,
+                    creatorEmail: user.email,
+                    date: new Date(),
+                    taskTitle: data.taskTitle,
+                    taskDetails: data.taskDetails,
+                    taskQuantity: data.taskQuantity,
+                    payableAmount: data.payableAmount,
+                    completionDate: data.completionDate,
+                    submissionInfo: data.submissionInfo,
+                    taskImageUrl: image,
+                };
+                const res = await axiosSecure.post('/tasks', taskInfo)
+                if (res.data.insertedId) {
+                    Swal.fire("Task is added!");
+                }
+
+            }
+        }
+
 
     }
     return (
@@ -61,7 +76,7 @@ const AddNewTask = () => {
                         <input {...register("taskDetails", { required: true })} type="text" className="grow" placeholder="Task Details" />
                     </label>
                 </div>
-                
+
                 <div className="form-control">
                     <label className="label">
                         <span className="label-text">Task Quantity</span>

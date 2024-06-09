@@ -23,7 +23,6 @@ const Header = () => {
             })
     }
     const navOptions = <>
-        <li><Link to="/">Home</Link></li>
         <li><Link to="/register">Register</Link></li>
         {
             user && isAdmin &&  <li><Link to="/dashboard/adminHome">Dashboard</Link></li>

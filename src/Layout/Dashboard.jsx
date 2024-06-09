@@ -1,18 +1,27 @@
-import React from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import useAdmin from '../hooks/useAdmin';
 import useAuth from '../hooks/useAuth';
 import useTaskCreator from '../hooks/useTaskCreator';
+import useAxiosSecure from '../hooks/useAxiosSecure';
+import { FaCoins } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 const Dashboard = () => {
+    const navigate = useNavigate();
+    const [userInfo,setUserInfo]= useState([]);
     const [isAdmin] = useAdmin();
     const [isTaskCreator] = useTaskCreator();
-    const { user } = useAuth();
-    // console.log(user, 'from auth');
+    const { user,logout } = useAuth();
+    const axiosSecure = useAxiosSecure();
+    useEffect(()=>{
+        axiosSecure.get(`/users/${user.email}`)
+        .then(res=>setUserInfo(res.data))
+    },[])
     const navOptions = <>
-        
+
         {
-            user && !isAdmin && !isTaskCreator &&<>
+            user && !isAdmin && !isTaskCreator && <>
                 <li><NavLink to={'userHome'}>Home</NavLink></li>
                 <li><NavLink to={'taskList'}>Task List</NavLink></li>
                 <li><NavLink to={'mySubmissions'}>My Submission</NavLink></li>
@@ -36,14 +45,27 @@ const Dashboard = () => {
             </>
         }
     </>
+    const handleLogout = () => {
+        logout()
+            .then(() => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Log out succesfull",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                navigate('/')
+            })
+    }
     return (
         <div>
             {/* headers  */}
             <div className="navbar bg-base-100">
                 <div className="flex-1">
-                    <a className="btn btn-ghost text-xl">daisyUI</a>
+                    <a href='/' className="btn btn-ghost text-xl">Micro Earning</a>
                 </div>
-                <div className="flex-none flex-row-reverse">
+                <div className="flex-none flex-row-reverse gap-4">
                     <div className="dropdown dropdown-end">
                         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
                             <div className="indicator">
@@ -62,14 +84,26 @@ const Dashboard = () => {
                         </div>
                     </div>
                     <div className="dropdown dropdown-end">
-                        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                            <div className="w-10 rounded-full">
-                                <img alt="Tailwind CSS Navbar component" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                        <div className='flex gap-4'>
+                            <div className='font-semibold'>
+                                <p>{userInfo.name}</p> 
+                                <p>{userInfo.role}</p>
+                            </div>
+                            <div className="btn bg-green-500 font-semibold btn-circle avatar ">
+                                <FaCoins></FaCoins>
+                                <p>{userInfo.coin}</p>
+                            </div>
+                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar btn-outline">
+                                <div className="w-10 rounded-full">
+                                    <img alt="Tailwind CSS Navbar component" src={userInfo.photoUrl} />
+                                </div>
                             </div>
                         </div>
+                        <div>
+                        </div>
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-
-                            <li><a>Logout</a></li>
+                            <li><a href='/'>Home</a></li>
+                            <li onClick={handleLogout}><a>Logout</a></li>
                         </ul>
                     </div>
                 </div>

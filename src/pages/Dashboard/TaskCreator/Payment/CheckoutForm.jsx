@@ -24,6 +24,13 @@ const CheckoutForm = ({amountInfo}) => {
     }, [axiosSecure, amount])
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const payment = {
+            email: user.email,
+            name:user.displayName,
+            amount: parseInt(amount),
+            date: new Date(),
+            coinPurchase:coins
+        }
         if (!stripe || !elements) {
             // Stripe.js has not loaded yet. Make sure to disable
             // form submission until Stripe.js has loaded.
@@ -62,24 +69,29 @@ const CheckoutForm = ({amountInfo}) => {
                 setTransactionId(paymentIntent.id);
 
                 //save the payment in db
-                const payment = {
-                    email: user.email,
-                    name:user.displayName,
-                    amount: parseInt(amount),
-                    transactionId: paymentIntent.id,
-                    date: new Date(),
-                    coinPurchase:coins
-                }
+                // const payment = {
+                //     email: user.email,
+                //     name:user.displayName,
+                //     amount: parseInt(amount),
+                //     transactionId: paymentIntent.id,
+                //     date: new Date(),
+                //     coinPurchase:coins
+                // }
                 const res = await axiosSecure.post('/payments', payment);
                 console.log(res.data);
                 if (res.data?.paymentResult?.insertedId) {
-                    Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: "Your work has been saved",
-                        showConfirmButton: false,
-                        timer: 1500
-                      });
+                    axiosSecure.patch(`/users/taskCreator/${payment.email}`,{coins})
+                    .then(res=>{
+                        console.log(res.data)
+
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Your work has been saved",
+                            showConfirmButton: false,
+                            timer: 1500
+                          });
+                    })
                 }
             }
         }

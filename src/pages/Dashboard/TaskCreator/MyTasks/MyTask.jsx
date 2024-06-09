@@ -4,9 +4,11 @@ import useAuth from "../../../../hooks/useAuth";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 const MyTask = () => {
     const { register, handleSubmit } = useForm();
+    const [taskID,setTaskID] = useState('');
     const axiosSecure = useAxiosSecure();
     const { user } = useAuth()
     const { data: tasks = [], refetch } = useQuery({
@@ -41,8 +43,12 @@ const MyTask = () => {
             }
         });
     }
-    
+    const handleClick = (id)=>{
+        document.getElementById('my_modal_1').showModal();
+        setTaskID(id);
+    }
     const handleUpdate = async (id,e) => {
+        console.log(id);
         e.preventDefault();
         const taskDetails = e.target.taskDetails.value;
         const taskTitle = e.target.taskTitle.value;
@@ -54,7 +60,7 @@ const MyTask = () => {
     }
     return (
         <div>
-            my tasks:{tasks.length}
+            
             <div className="overflow-x-auto">
                 <table className="table">
                     {/* head */}
@@ -73,7 +79,7 @@ const MyTask = () => {
                                 <td>{task.taskTitle}</td>
                                 <td>{task.payableAmount}</td>
                                 <td>
-                                    <button onClick={() => document.getElementById('my_modal_1').showModal()} className="btn btn-lg bg-red-500">
+                                    <button onClick={() => handleClick(task._id)} className="btn btn-lg bg-red-500">
                                         <FaEdit></FaEdit>
                                     </button>
                                     <dialog id="my_modal_1" className="modal">
@@ -82,7 +88,7 @@ const MyTask = () => {
                                                 {/* if there is a button in form, it will close the modal */}
                                                 <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                                             </form>
-                                            <form onSubmit={()=>handleUpdate(task._id,event)}>
+                                            <form onSubmit={()=>handleUpdate(taskID,event)}>
                                                 <label className="form-control w-full max-w-xs">
                                                     <span className="label-text">Task Title</span>
                                                     <input name="taskTitle" type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />

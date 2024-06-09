@@ -23,9 +23,12 @@ const TaskToReview = () => {
     const handleApprove =async(task)=>{
         const id = task._id;
         const workerEmail = task.workerEmail;
-        console.log(id,workerEmail);
+        const coins = task.payableAmount;
+        // console.log(task);
         const res =await axiosSecure.patch(`/submissions/approve/${id}`);
         console.log(res.data);
+        const workerRes = await axiosSecure.patch(`/users/worker/${workerEmail}`,{coins})
+        console.log(workerRes.data);
         refetch();
     }
     const handleReject =async(task)=>{

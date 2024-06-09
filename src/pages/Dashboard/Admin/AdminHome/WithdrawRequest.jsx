@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import useAxiosSecure from '../../../../hooks/useAxiosSecure';
+import { useQuery } from '@tanstack/react-query';
 
 const WithdrawRequest = () => {
-    const [withdraws, setWithdraws] = useState([]);
+    // const [withdraws, setWithdraws] = useState([]);
     const axiosSecure = useAxiosSecure();
-    useEffect(() => {
-        axiosSecure.get(`/withdraws`)
-            .then(res => {
-                setWithdraws(res.data);
-            })
-    }, [])
+    const { data: withdraws = [], refetch } = useQuery({
+        queryKey: ['withdraws'],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/withdraws`);
+            return res.data;
+        }
+    })
+    // useEffect(() => {
+    //     axiosSecure.get(`/withdraws`)
+    //         .then(res => {
+    //             setWithdraws(res.data);
+    //         })
+    // }, [])
     const handlePaymentSuccess =async (withdraw)=>{
         const res = await axiosSecure.delete(`/withdraws/${withdraw._id}`);
         console.log(res.data);
@@ -22,7 +30,7 @@ const WithdrawRequest = () => {
         const deductedCoin = {deductedCoin:coin};
         const res = await axiosSecure.patch(`/users/${email}`,deductedCoin)
         console.log(res.data);
-        
+        refetch();
     }
     return (
         <div className="overflow-x-auto">
