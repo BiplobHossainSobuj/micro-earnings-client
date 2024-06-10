@@ -4,7 +4,7 @@ import SectionIntro from '../../Shared/SectionIntro/SectionIntro';
 const Features = () => {
     return (
         <div>
-            <SectionIntro title={'Features'} subtitle={'explore and earn'}></SectionIntro>
+            <SectionIntro title={'Features'} subtitle={'Just explore our website find your suitable task,complete task and get reward'}></SectionIntro>
             <div className='md:flex justify-between my-24'>
                 <div className='text-center'>
                     <div className="flex justify-center">
