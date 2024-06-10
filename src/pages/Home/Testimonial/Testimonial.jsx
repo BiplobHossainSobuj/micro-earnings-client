@@ -34,7 +34,7 @@ const Testimonial = () => {
                 }}
             >
                 <SwiperSlide>
-                    <div className="card w-96 bg-base-100 shadow-xl">
+                    <div className="card bg-base-100 shadow-xl">
                         <div className="avatar">
                             <div className="w-24 rounded-full">
                                 <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
@@ -53,7 +53,7 @@ const Testimonial = () => {
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
-                    <div className="card w-96 bg-base-100 shadow-xl">
+                    <div className="card bg-base-100 shadow-xl">
                         <div className="avatar">
                             <div className="w-24 rounded-full">
                                 <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
@@ -72,7 +72,7 @@ const Testimonial = () => {
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
-                    <div className="card w-96 bg-base-100 shadow-xl">
+                    <div className="card bg-base-100 shadow-xl">
                         <div className="avatar">
                             <div className="w-24 rounded-full">
                                 <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
