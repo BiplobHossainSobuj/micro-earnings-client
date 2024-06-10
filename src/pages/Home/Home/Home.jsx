@@ -10,6 +10,10 @@ const Home = () => {
         <div>
             <Banner></Banner>
             <Features></Features>
+            <div className='mx-auto text-center my-20 w-3/4'>
+                <h3 className='uppercase text-4xl'>How It works</h3>
+                <p className='py-4'>Are you ready to turn your spare time into rewards? Register now and unlock a world of opportunities to earn rewards by completing simple tasks. Whether you're a student looking to make some extra cash.</p>
+            </div>
             <HowWorks></HowWorks>
             <TopEarners></TopEarners>
             <Testimonial></Testimonial>
