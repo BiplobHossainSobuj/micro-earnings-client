@@ -2,6 +2,7 @@ import React from 'react';
 import { useLoaderData, useLocation } from 'react-router-dom';
 import useAuth from '../../../../hooks/useAuth';
 import useAxiosSecure from '../../../../hooks/useAxiosSecure';
+import Swal from 'sweetalert2';
 
 const TaskDetails = () => {
     let { state } = useLocation();
@@ -26,14 +27,22 @@ const TaskDetails = () => {
             status:'pending'
         }
         const res = await axiosSecure.post('/submissions',taskSubmissionInfo)
-
+        if(res.data.insertedId){
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Your work has been saved",
+                showConfirmButton: false,
+                timer: 1500
+              });
+        }
         console.log(res.data);
     }
     return (
         <div>
             <div className="hero min-h-screen my-10">
                 <div className="hero-content flex-col lg:flex-row">
-                    <img src={taskImageUrl} className="w-full md:w-2/3 rounded-lg shadow-2xl" />
+                    <img src={taskImageUrl} className="w-full rounded-lg shadow-2xl" />
                     <div className='bg-slate-200 w-full rounded-lg'>
                         <div className="card-body">
                             <div className='flex justify-between'>
@@ -85,7 +94,7 @@ const TaskDetails = () => {
 
                         <div className=''>
                             <h3 className='text-3xl text-center text-blue-500 underline'>What To Submit</h3>
-                            <div>
+                            <div className='text-center'>
                                 <p>{submissionInfo}</p>
                             </div>
                         </div>

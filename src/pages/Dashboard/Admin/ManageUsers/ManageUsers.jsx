@@ -49,7 +49,16 @@ const ManageUsers = () => {
         const updatedInfo = {id,userRole}
         console.log(userRole);
         const res = await axiosSecure.patch(`users/role/${id}`,updatedInfo);
-        console.log(res.data);
+        if(res.data.modifiedCount){
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Your work has been saved",
+                showConfirmButton: false,
+                timer: 1500
+              });
+              refetch()
+        }
     }
 
     return (

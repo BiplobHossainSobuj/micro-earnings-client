@@ -13,7 +13,7 @@ const Tasklist = () => {
         }
     })
     return (
-        <div>
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-4 my-10'>
             {
                 tasks.map(task=><TaskCard key={task._id} task={task}></TaskCard>)
             }

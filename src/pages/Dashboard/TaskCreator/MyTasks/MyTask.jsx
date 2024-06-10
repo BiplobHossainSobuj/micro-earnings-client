@@ -71,7 +71,16 @@ const MyTask = () => {
         const updatedInfo = { id, taskDetails, taskTitle, submissionDetails }
         console.log(updatedInfo);
         const res = await axiosSecure.patch(`tasks/${id}`, updatedInfo);
-        console.log(res.data);
+        if(res.data.modifiedCount){
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Your work has been saved",
+                showConfirmButton: false,
+                timer: 1500
+              });
+              refetch();
+        }
     }
     return (
         <div>

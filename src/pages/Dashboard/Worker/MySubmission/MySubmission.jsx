@@ -32,21 +32,14 @@ const MySubmission = () => {
                             <td>{index+1}</td>
                         <td>
                             <div className="flex items-center gap-3">
-                                <div className="avatar">
-                                    <div className="mask mask-squircle w-12 h-12">
-                                        <img src="https://img.daisyui.com/tailwind-css-component-profile-2@56w.png" alt="Avatar Tailwind CSS Component" />
-                                    </div>
-                                </div>
                                 <div>
                                     <div className="font-bold">{task.creatorName}</div>
-                                    <div className="text-sm opacity-50">United States</div>
+                                    <div className="text-sm opacity-50">{task.creatorEmail}</div>
                                 </div>
                             </div>
                         </td>
                         <td>
-                            Zemlak, Daniel and Leannon
-                            <br />
-                            <span className="badge badge-ghost badge-sm">Desktop Support Technician</span>
+                            {task.taskTitle}
                         </td>
                         <td>{task.status}</td>
                         
