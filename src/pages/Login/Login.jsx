@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import SocialLogin from "../Shared/SocialLogin/SocialLogin";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import useAdmin from "../../hooks/useAdmin";
@@ -64,6 +64,9 @@ const Login = () => {
             </form>
             <div className="flex justify-center">
             <SocialLogin></SocialLogin>
+            </div>
+            <div>
+                <p>New to website?<Link to={'register'}>Register</Link> </p>
             </div>
         </div>
     );
