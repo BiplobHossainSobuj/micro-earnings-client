@@ -62,7 +62,9 @@ const Login = () => {
                 </div>
                 <input className="btn btn-block btn-primary" value={'Login'} type="submit" />
             </form>
+            <div className="flex justify-center">
             <SocialLogin></SocialLogin>
+            </div>
         </div>
     );
 };
