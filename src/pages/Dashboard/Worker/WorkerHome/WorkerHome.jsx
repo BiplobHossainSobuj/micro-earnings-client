@@ -14,13 +14,13 @@ const WorkerHome = () => {
             return res.data;
         }
     })
-    const totalEarnings = stats.earnings.reduce((accumulator, currentItem) => accumulator + parseFloat(currentItem.payableAmount), 0);
+    // const totalEarnings = stats.earnings.reduce((accumulator, currentItem) => accumulator + parseFloat(currentItem.payableAmount), 0);
     console.log(stats);
     return (
         <div>
-            <div>Coin:{stats.coin.coin}</div>
-            <div>Earnings:{totalEarnings}</div>
-            <div>Submissions:{stats.submissions}</div>
+            <div>Coin:{stats?.coin?.coin}</div>
+            <div>Earnings:{stats?.totalEaning}</div>
+            <div>Submissions:{stats?.submissions}</div>
             <ApprovedSubmission></ApprovedSubmission>
         </div>
     );

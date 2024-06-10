@@ -8,19 +8,18 @@ const TaskCreatorHome = () => {
     const {user} = useAuth();
     const axiosSecure = useAxiosSecure();
     const { data: creatorStats = [], refetch } = useQuery({
-        queryKey: ['stats'],
+        queryKey: ['creatorStats'],
         queryFn: async () => {
             const res = await axiosSecure.get(`/taskCreatorStats/${user.email}`);
             return res.data;
         }
     })
-    const totalPayment = creatorStats.amount.reduce((accumulator, currentItem) => accumulator + parseFloat(currentItem.amount), 0);
     console.log(creatorStats);
     return (
         <div>
             <div>{creatorStats.coin.coin}</div>
-            <div>{totalPayment}</div>
-            <div>{creatorStats.pendingTask}</div>
+            <div>{creatorStats.totalPayment}</div>
+            <div>{creatorStats.allPendings}</div>
             <TaskToReview></TaskToReview>
         </div>
     );
