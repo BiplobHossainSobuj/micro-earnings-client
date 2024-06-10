@@ -29,6 +29,8 @@ const TaskToReview = () => {
         console.log(res.data);
         const workerRes = await axiosSecure.patch(`/users/worker/${workerEmail}`,{coins})
         console.log(workerRes.data);
+        const notify = await axiosSecure.post('/notifications',{toMail:workerEmail,massage:`you have earned ${coins} from ${task.creatorName} for completing ${task.taskTitle}`})
+        console.log(notify.data);
         refetch();
     }
     const handleReject =async(task)=>{

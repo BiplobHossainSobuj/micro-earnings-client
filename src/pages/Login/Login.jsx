@@ -66,7 +66,7 @@ const Login = () => {
             <SocialLogin></SocialLogin>
             </div>
             <div>
-                <p>New to website?<Link to={'register'}>Register</Link> </p>
+                <p>New to website?<Link to={'/register'}>Register</Link> </p>
             </div>
         </div>
     );
